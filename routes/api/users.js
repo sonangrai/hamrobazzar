@@ -69,33 +69,19 @@ router.post(
 router.put(
   "/:id",
   [
-    check("name", "Please Enter Name").not().isEmpty(),
-    check("counter", "Please Counter Number").not().isEmpty(),
-    check("email", "Enter Valid Emai").isEmail(),
+    check("email", "Enter Valid Email Address").isEmail(),
     check("password", "More than 6 character").isLength({ min: 6 }),
   ],
+  auth,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const {
-      name,
-      email,
-      password,
-      usertype,
-      contact,
-      address,
-      counter,
-    } = req.body;
+    const { email, password } = req.body;
 
     const userFields = {};
-    if (name) userFields.name = name;
     if (email) userFields.email = email;
-    if (usertype) userFields.usertype = usertype;
-    if (contact) userFields.contact = contact;
-    if (address) userFields.address = address;
-    if (counter) userFields.counter = counter;
     const salt = await bcrypt.genSalt(10);
     if (password) userFields.password = await bcrypt.hash(password, salt);
 
@@ -114,8 +100,6 @@ router.put(
       user = new user(userFields);
       await user.save();
       res.json(user);
-
-      await user.save();
 
       const payload = {
         user: {
@@ -140,26 +124,11 @@ router.put(
 );
 
 // @route GET api/user
-// @desc GEting current user
+// @desc Getting current user
 //@access Public
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
-    const user = await User.find();
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json("error");
-  }
-});
-
-// @route GET api/Profile/user/user_id
-// @desc GEting current user profile
-//@access Public
-router.get("/:id", async (req, res) => {
-  try {
-    console.log(req.params.id);
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(400).json({ msg: "User not found" });
+    const user = await User.find().select("-password");
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -170,7 +139,7 @@ router.get("/:id", async (req, res) => {
 // @route DELETE api/Profile/user/user_id
 // @desc Deleting user by Id
 // @access Private
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const remo = await User.findById(req.params.id);
     await remo.remove();
