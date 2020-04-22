@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://hamrobazzar:hamrobazzar@devconnector-s1wha.mongodb.net/hamrobazzar?retryWrites=true&w=majority",
+  "jwtSecret": "sonahangrai"
+}
