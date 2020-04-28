@@ -9,7 +9,7 @@ const auth = require("../../middleware/auth");
 
 // @route POST api/user
 // @desc Register User
-// @access Public
+// @access Private
 router.post(
   "/",
   [
@@ -124,8 +124,8 @@ router.put(
 );
 
 // @route GET api/user
-// @desc Getting current user
-//@access Public
+// @desc Getting current user7s profile
+// @access Private
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.find().select("-password");
