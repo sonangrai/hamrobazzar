@@ -3,7 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
-const config = require("config");
 const auth = require("../../middleware/auth");
 
 router.post(
@@ -11,8 +10,8 @@ router.post(
   [
     check("fullname", "Enter Full Name").not().isEmpty(),
     check("phone", "Phone Number Needed").not().isEmpty(),
-    check("area", "Area Number Needed").not().isEmpty(),
-    check("city", "City Number Needed").not().isEmpty(),
+    check("area", "Area Needed").not().isEmpty(),
+    check("city", "City Needed").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,7 +38,6 @@ router.post(
         city,
         hidenumber,
       });
-      console.log(profile);
       await profile.save();
       res.json(profile);
     } catch (err) {
@@ -66,10 +64,6 @@ router.put("/:id", auth, async (req, res) => {
   const checkUser = await User.findById(req.user.id);
   if (checkUser.id !== req.params.id) {
     return res.status(401).json({ msg: "Not authorised" });
-  }
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
   }
   const { avatar, fullname, phone, street, area, city, hidenumber } = req.body;
 

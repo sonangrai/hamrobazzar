@@ -27,7 +27,6 @@ const AdsSchema = new mongoose.Schema({
   },
   useduration: {
     type: String,
-    required: true,
   },
   specifications: {
     type: String,
