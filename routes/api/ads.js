@@ -107,6 +107,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const ads = await Ads.find();
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+    res.setHeader("Content-Range", `ads 0-5/${ads.length}`);
+    res.send(ads);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId")
+      return res.status(400).json({ msg: "ads not found" });
+    res.status(500).send("Server Error");
+  }
+});
+
 router.delete("/:id", auth, async (req, res) => {
   try {
     const remo = await Ads.findById(req.params.id);

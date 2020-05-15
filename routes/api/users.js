@@ -129,6 +129,8 @@ router.put(
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.find().select("-password");
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+    res.setHeader("Content-Range", `user 0-5/${user.length}`);
     res.json(user);
   } catch (err) {
     console.error(err.message);

@@ -1,0 +1,41 @@
+a {
+  color: #000;
+}
+.sidebar-sticky {
+  height: 90vh;
+}
+a.nav-link {
+  border-left: 20px solid transparent;
+}
+a.nav-link.active {
+  border-left: 20px solid #44a8e5;
+}
+.aligner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.lcard {
+  padding: 2%;
+  height: 500px;
+  width: 400px;
+  margin: 0 auto;
+  -webkit-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+}
+.central-icon {
+  text-align: center;
+  font-size: 5rem;
+}
+.stats {
+  margin: 2% 0;
+}
+p.stat-data {
+  font-size: 3rem;
+  font-weight: 800;
+}
+.smallalert {
+  font-size: 1rem;
+}
