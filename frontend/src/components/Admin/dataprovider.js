@@ -2,7 +2,6 @@ import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 
 const apiUrl = "http://localhost:4000/api";
-//const httpClient = fetchUtils.fetchJson;
 
 const httpClient = (url, options = {}) => {
   if (!options.headers) {
@@ -35,8 +34,7 @@ export default {
 
   getOne: (resource, params) =>
     httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      ...json,
-      id: json._id,
+      data: { ...json, id: json._id },
     })),
 
   getMany: (resource, params) => {
@@ -72,7 +70,7 @@ export default {
     httpClient(`${apiUrl}/${resource}/${params.id}`, {
       method: "PUT",
       body: JSON.stringify(params.data),
-    }).then(({ json }) => ({ data: json })),
+    }).then(({ json }) => ({ data: { ...json, id: json._id } })),
 
   updateMany: (resource, params) => {
     const query = {
@@ -95,7 +93,7 @@ export default {
   delete: (resource, params) =>
     httpClient(`${apiUrl}/${resource}/${params.id}`, {
       method: "DELETE",
-    }).then(({ json }) => ({ ...json, id: json._id })),
+    }).then(({ json }) => ({ data: { ...json, id: json._id } })),
 
   deleteMany: (resource, params) => {
     const query = {
@@ -104,6 +102,6 @@ export default {
     return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
       method: "DELETE",
       body: JSON.stringify(params.data),
-    }).then(({ json }) => ({ data: json }));
+    }).then(({ json }) => ({ data: { ...json, id: json._id } }));
   },
 };

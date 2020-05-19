@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./App.css";
 
-import AdminRoutes from "./components/Adminlayouts/Routes";
-import FrontRoutes from "./components/Frontlayouts/Routes";
+import AdminRoutes from "./components/Admin/Routes";
+import FrontRoutes from "./components/Front/Routes";
 
 function App() {
   return (

@@ -33,7 +33,7 @@ const AdsSchema = new mongoose.Schema({
   },
   adstatus: {
     type: String,
-    default: "unapproved",
+    default: "0",
   },
 });
 

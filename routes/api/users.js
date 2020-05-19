@@ -14,6 +14,7 @@ router.post(
   "/",
   [
     check("email", "Enter Valid Email").isEmail(),
+    check("username", "Enter username").exists(),
     check("password", "More than 6 character").isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -21,7 +22,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
     try {
       let user = await User.findOne({ email });
       if (user) {
@@ -31,6 +32,7 @@ router.post(
       }
 
       user = new User({
+        username,
         email,
         password,
       });
@@ -138,6 +140,21 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route GET api/user
+// @desc Getting current user7s profile
+// @access Private
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+    res.setHeader("Content-Range", `user 0-5/${user.length}`);
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("error");
+  }
+});
+
 // @route DELETE api/Profile/user/user_id
 // @desc Deleting user by Id
 // @access Private
@@ -145,7 +162,7 @@ router.delete("/:id", auth, async (req, res) => {
   try {
     const remo = await User.findById(req.params.id);
     await remo.remove();
-    res.send("User Deleted Succesfully");
+    res.send(remo);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("error");

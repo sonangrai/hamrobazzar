@@ -50,10 +50,6 @@ router.post(
 );
 
 router.put("/:id", auth, async (req, res) => {
-  const checkAds = await Ads.findOne({ user: req.user.id });
-  if (checkAds.id !== req.params.id) {
-    return res.status(401).json({ msg: "Not authorised" });
-  }
   const {
     title,
     description,
@@ -62,6 +58,7 @@ router.put("/:id", auth, async (req, res) => {
     condition,
     useduration,
     specification,
+    adstatus,
   } = req.body;
 
   const adsFields = {};
@@ -72,6 +69,7 @@ router.put("/:id", auth, async (req, res) => {
   if (condition) adsFields.condition = condition;
   if (useduration) adsFields.useduration = useduration;
   if (specification) adsFields.specification = specification;
+  if (adstatus) adsFields.adstatus = adstatus;
 
   try {
     let ads = await Ads.findById(req.params.id);
@@ -125,7 +123,7 @@ router.delete("/:id", auth, async (req, res) => {
   try {
     const remo = await Ads.findById(req.params.id);
     await remo.remove();
-    res.send("Ads Deleted Succesfully");
+    res.send(remo);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("error");
