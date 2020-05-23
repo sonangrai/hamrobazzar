@@ -97,4 +97,17 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const gallery = await Gallery.find();
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+    res.setHeader("Content-Range", `gallery 0-5/${gallery.length}`);
+    res.send(gallery);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId")
+      return res.status(400).json({ msg: "profile not found" });
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;

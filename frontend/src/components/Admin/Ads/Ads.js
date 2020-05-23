@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Axios from "axios";
 import {
   List,
   Datagrid,
@@ -14,6 +17,8 @@ import {
   Show,
   SimpleShowLayout,
   ShowButton,
+  Filter,
+  ReferenceInput,
 } from "react-admin";
 
 const validateAdStatus = choices(["approved", "unapproved"], "Must select one");
@@ -23,8 +28,22 @@ const PostTitle = ({ record }) => {
   return <span>Post {record ? `"${record.title}"` : ""}</span>;
 };
 
+const PostFilter = (props) => (
+  <Filter {...props}>
+    <TextInput label="Search" source="q" alwaysOn />
+    <ReferenceInput label="Ads" source="id" reference="ads" allowEmpty>
+      <SelectInput optionText="name" />
+    </ReferenceInput>
+  </Filter>
+);
+
 export const AdsList = (props) => (
-  <List {...props} title="List of Ads" bulkActionButtons={false}>
+  <List
+    {...props}
+    title="List of Ads"
+    bulkActionButtons={false}
+    filters={<PostFilter />}
+  >
     <Datagrid>
       <TextField source="id" />
       <TextField source="price" />
@@ -96,6 +115,38 @@ export const AdsCreate = (props) => (
   </Create>
 );
 
+function Gallery(source) {
+  var id = source.record._id;
+  const [img, setimg] = useState([]);
+  useEffect(() => {
+    Axios.get(`http://localhost:4000/api/gallery/${id}`).then((res) => {
+      const a = res.data;
+      if (res.status !== 200) {
+        setimg(null);
+      } else {
+        setimg(a);
+      }
+    });
+  }, []);
+  return (
+    <Card>
+      {img.length === 0 ? (
+        <h3>No Gallery</h3>
+      ) : (
+        <CardContent>
+          <div className="card-columns">
+            {img.map((image) => (
+              <div className="card">
+                <img key={image._id} src={"/uploads/img/" + image.photo} />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      )}
+    </Card>
+  );
+}
+
 export const AdsShow = (props) => (
   <Show {...props} title={<PostTitle />}>
     <SimpleShowLayout>
@@ -106,6 +157,7 @@ export const AdsShow = (props) => (
       <TextField source="adstatus" />
       <TextField source="condition" />
       <TextField source="pricenegotiable" />
+      <Gallery source="id" />
     </SimpleShowLayout>
   </Show>
 );

@@ -9,6 +9,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String,
+  },
   password: {
     type: String,
     required: true,
@@ -16,6 +19,10 @@ const UserSchema = new mongoose.Schema({
   usertype: {
     type: String,
     default: "user",
+  },
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 

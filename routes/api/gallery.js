@@ -7,7 +7,7 @@ const fs = require("fs");
 var multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads");
+    cb(null, "./frontend/public/uploads/img");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -15,16 +15,16 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-router.post("/:id", upload.single("image"), auth, async (req, res, file) => {
+router.post("/:id", auth, upload.single("image"), async (req, res, file) => {
   const checkAds = await Ads.findOne({ user: req.user.id });
   if (checkAds.id !== req.params.id) {
     return res.status(401).json({ msg: "Not authorised" });
   }
-  const image = req.file.originalname;
+  const newimage = req.file.originalname;
   try {
     gallery = new Gallery({
       ads: req.params.id,
-      photo: image,
+      photo: newimage,
     });
     await gallery.save();
     res.json(gallery);
@@ -39,6 +39,20 @@ router.get("/:id", async (req, res) => {
     const gallery = await Gallery.find({ ads: req.params.id });
     if (!gallery) return res.status(400).json({ msg: "gallery not found" });
     res.json(gallery);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId")
+      return res.status(400).json({ msg: "gallery not found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const gallery = await Gallery.find();
+    res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+    res.setHeader("Content-Range", `gallery 0-5/${gallery.length}`);
+    res.send(gallery);
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId")

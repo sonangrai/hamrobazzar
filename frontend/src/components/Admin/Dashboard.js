@@ -5,72 +5,16 @@ import { Title } from "react-admin";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import Userlist from "./Userlist";
-import { Currentuser } from "./Currentuser";
+import Userlist from "./Users/Userlist";
+import { Currentuser } from "./Users/Currentuser";
+import { TotalAds, TotalUsers, AdsReview } from "./Dashdata";
 
 export default () => (
   <Grid container spacing={3}>
     <Title title="Welcome to the Admin Dashboard" />
-    <Grid item xs={3}>
-      <Card>
-        <CardContent>
-          <Typography variant="h2" component="h2">
-            <i className="fas fa-ad"></i>
-          </Typography>
-          <Typography variant="h5" component="h5">
-            Total Ads
-          </Typography>
-          <Typography variant="h2" component="h2">
-            1200
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-    <Grid item xs={3}>
-      <Card>
-        <CardContent>
-          <Typography variant="h2" component="h2">
-            <i className="fas fa-users"></i>
-          </Typography>
-          <Typography variant="h5" component="h5">
-            Total Users
-          </Typography>
-          <Typography variant="h2" component="h2">
-            105
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-    <Grid item xs={3}>
-      <Card>
-        <CardContent>
-          <Typography variant="h2" component="h2">
-            <i className="fas fa-ad"></i>
-          </Typography>
-          <Typography variant="h5" component="h5">
-            Recent Ads
-          </Typography>
-          <Typography variant="h2" component="h2">
-            18
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-    <Grid item xs={3}>
-      <Card>
-        <CardContent>
-          <Typography variant="h2" component="h2">
-            <i className="fas fa-user-plus"></i>
-          </Typography>
-          <Typography variant="h5" component="h5">
-            Recent User
-          </Typography>
-          <Typography variant="h2" component="h2">
-            1200
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
+    <TotalAds />
+    <TotalUsers />
+    <AdsReview />
     <Grid item xs={3}>
       <Card>
         <CardContent>

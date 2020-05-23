@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const auth = require("../../middleware/auth");
+const gravatar = require("gravatar");
 
 // @route POST api/user
 // @desc Register User
@@ -31,9 +32,16 @@ router.post(
           .json({ errors: [{ msg: "User Already Exist" }] });
       }
 
+      const avatar = gravatar.url(email, {
+        s: "200",
+        r: "pg",
+        d: "mm",
+      });
+
       user = new User({
         username,
         email,
+        avatar,
         password,
       });
 
