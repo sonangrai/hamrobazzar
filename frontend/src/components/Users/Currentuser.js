@@ -21,7 +21,7 @@ export const Currentuser = () => {
 
   return (
     <div className="flexer">
-      <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+      <Avatar alt="Cindy Baker" src={user.avatar} />
       <Typography>Name: {user.username}</Typography>
       <Typography>Email: {user.email}</Typography>
     </div>

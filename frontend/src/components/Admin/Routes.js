@@ -1,12 +1,12 @@
 import React from "react";
 import "../../App.css";
 import { Admin, Resource } from "react-admin";
-import { AdsList, AdsCreate, AdsEdit, AdsShow } from "./Ads/Ads";
-import { UserList, UserCreate, UserEdit, UserShow } from "./Users/Users";
-import authProvider from "./Utils/authProvider";
+import { AdsList, AdsCreate, AdsEdit, AdsShow } from "../Ads/Ads";
+import { UserList, UserCreate, UserEdit, UserShow } from "../Users/Users";
+import authProvider from "../Utils/authProvider";
 import AddToHomeScreenIcon from "@material-ui/icons/AddToHomeScreen";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
-import restProvider from "./Utils/dataprovider";
+import restProvider from "../Utils/dataprovider";
 import Dashboard from "./Dashboard";
 
 const Routes = () => {

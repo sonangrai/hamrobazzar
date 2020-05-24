@@ -1,18 +1,44 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import { Admin, Resource } from "react-admin";
+import { AdsList, AdsCreate, AdsEdit, AdsShow } from "./components/Ads/Ads";
+import {
+  UserList,
+  UserCreate,
+  UserEdit,
+  UserShow,
+} from "./components/Users/Users";
+import authProvider from "./components/Utils/authProvider";
+import AddToHomeScreenIcon from "@material-ui/icons/AddToHomeScreen";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import restProvider from "./components/Utils/dataprovider";
+import Dashboard from "./components/Admin/Dashboard";
 
-import AdminRoutes from "./components/Admin/Routes";
-import FrontRoutes from "./components/Front/Routes";
-
-function App() {
+const Routes = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={FrontRoutes} />
-        <Route component={AdminRoutes} />
-      </Switch>
-    </Router>
+    <Admin
+      dashboard={Dashboard}
+      authProvider={authProvider}
+      dataProvider={restProvider}
+    >
+      <Resource
+        name="ads"
+        create={AdsCreate}
+        list={AdsList}
+        edit={AdsEdit}
+        show={AdsShow}
+        icon={AddToHomeScreenIcon}
+      />
+      <Resource
+        name="users"
+        create={UserCreate}
+        list={UserList}
+        edit={UserEdit}
+        show={UserShow}
+        icon={PeopleAltIcon}
+      />
+    </Admin>
   );
-}
+};
 
-export default App;
+export default Routes;

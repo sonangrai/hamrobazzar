@@ -7,6 +7,9 @@ import Axios from "axios";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import { Link } from "react-router-dom";
 
 export const TotalAds = () => {
   const token = localStorage.getItem("token");
@@ -102,9 +105,52 @@ export const AdsReview = () => {
           <List component="nav" aria-label="secondary mailbox folders">
             {cnt.map((data) =>
               data.adstatus === "unapproved" ? (
-                <ListItem button key={data.id}>
-                  <span className="counter">{i++}</span>
-                  {data.title}
+                <Link to={"/ads/" + data._id}>
+                  <ListItem button key={data._id}>
+                    <span className="counter">{i++}</span>
+                    {data.title}
+                  </ListItem>
+                </Link>
+              ) : null
+            )}
+          </List>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+};
+
+export const Newuser = () => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": `${token}`,
+    },
+  };
+  const [cnt, setcnt] = useState([]);
+  useEffect(() => {
+    Axios.get("http://localhost:4000/api/users", config).then((res) => {
+      const a = res.data;
+      setcnt(a);
+    });
+  }, []);
+  return (
+    <Grid item xs={3}>
+      <Card>
+        <CardContent>
+          <Typography component="h6">New Users</Typography>
+          <List>
+            {cnt.map((data) =>
+              data.usertype === "user" ? (
+                <ListItem key={data._id}>
+                  <ListItemAvatar>
+                    <Avatar alt={data.avatar} src={data.avatar} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={data.username}
+                    secondary={data.email}
+                  />
                 </ListItem>
               ) : null
             )}

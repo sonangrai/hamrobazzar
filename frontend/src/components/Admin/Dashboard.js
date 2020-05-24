@@ -5,9 +5,8 @@ import { Title } from "react-admin";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import Userlist from "./Users/Userlist";
-import { Currentuser } from "./Users/Currentuser";
-import { TotalAds, TotalUsers, AdsReview } from "./Dashdata";
+import { Currentuser } from "../Users/Currentuser";
+import { TotalAds, TotalUsers, AdsReview, Newuser } from "./Dashdata";
 
 export default () => (
   <Grid container spacing={3}>
@@ -15,14 +14,7 @@ export default () => (
     <TotalAds />
     <TotalUsers />
     <AdsReview />
-    <Grid item xs={3}>
-      <Card>
-        <CardContent>
-          <Typography component="h6">New Users</Typography>
-          <Userlist />
-        </CardContent>
-      </Card>
-    </Grid>
+    <Newuser />
     <Grid item xs={3}>
       <Card>
         <CardContent>

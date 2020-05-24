@@ -28,22 +28,8 @@ const PostTitle = ({ record }) => {
   return <span>Post {record ? `"${record.title}"` : ""}</span>;
 };
 
-const PostFilter = (props) => (
-  <Filter {...props}>
-    <TextInput label="Search" source="q" alwaysOn />
-    <ReferenceInput label="Ads" source="id" reference="ads" allowEmpty>
-      <SelectInput optionText="name" />
-    </ReferenceInput>
-  </Filter>
-);
-
 export const AdsList = (props) => (
-  <List
-    {...props}
-    title="List of Ads"
-    bulkActionButtons={false}
-    filters={<PostFilter />}
-  >
+  <List {...props} title="List of Ads" bulkActionButtons={false}>
     <Datagrid>
       <TextField source="id" />
       <TextField source="price" />
