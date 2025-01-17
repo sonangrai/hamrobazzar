@@ -21,7 +21,7 @@
     "express-validator": "^6.4.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^5.9.6",
+    "mongoose": "^8.9.5",
     "multer": "^1.4.2",
     "react-owl-carousel2": "^0.3.0"
   },
